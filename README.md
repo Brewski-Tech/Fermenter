@@ -7,6 +7,8 @@ See the full project documentation at [https://makerhub.site/docs/brewskitech/fe
 
 ## Files
 
+fermenter.yaml - HomeAssistant ESPHome configuration file
+
 FermenterController.fzz - fritizing file for electronics
 
 FermenterController_bb.jpg - snapshot of breadboard layout

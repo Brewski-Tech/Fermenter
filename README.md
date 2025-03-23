@@ -1,5 +1,6 @@
 # Fermenter
-<img src="https://github.com/user-attachments/assets/e4451f37-9971-41c2-966a-e320cdb878ee" alt="drawing" width="400"/>
+#<img src="https://github.com/user-attachments/assets/e4451f37-9971-41c2-966a-e320cdb878ee" alt="drawing" width="400"/>
+<img src="https://github.com/Brewski-Tech/Fermenter/blob/main/fermenter.jpg?raw=true" alt="fermenter.jpg" width="400"/>
 
 Source files for the Brewski Tech Fermenter project.
 

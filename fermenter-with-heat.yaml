@@ -1,0 +1,102 @@
+esphome:
+  name: "fermenter1"
+
+esp8266:
+  board: nodemcuv2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+    password: !secret esphome_ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Fermenter1 Fallback Hotspot"
+    password: !secret wifi_backup_password
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    name: "LED"
+    inverted: true
+    pin: D0
+  - platform: gpio
+    id: fan_power
+    name: "Fan Power"
+    pin: D5
+  - platform: homeassistant
+    entity_id: switch.plug1_relay
+    id: heater_power
+
+# pin D3 may be fried on this NodeMCU
+one_wire:
+  - platform: gpio
+    pin: D4
+
+sensor:
+  - platform: dallas_temp
+    name: "Temperature"
+    id: fermenter_temp
+    update_interval: 5s
+  #- platform: pulse_counter
+  #  pin: D6
+  #  id: fermenter_fan_rpm
+  #  name: "Fermenter Fan RPM"
+  #  update_interval: 5s
+  #  filters:
+  #    - multiply: 0.5 # 2 pulses per revolution
+
+i2c:
+  sda: D2
+  scl: D1
+
+# Kegerator thermostat
+climate:
+  - name: "Thermostat"
+    id: fermenter_thermostat
+    default_preset: home
+    platform: thermostat
+    visual:
+      min_temperature: 30 °F
+      max_temperature: 100 °F
+      temperature_step: 1 °F
+    sensor: fermenter_temp    
+    preset:
+      # Standard presets
+      - name: home
+        mode: HEAT_COOL
+        default_target_temperature_high: 70 °F
+        default_target_temperature_low: 50 °F
+    cool_deadband: 0.1
+    cool_overrun: 0.1
+    min_cooling_off_time: 1s
+    min_cooling_run_time: 1s
+    min_heating_off_time: 30s
+    min_heating_run_time: 30s
+    min_idle_time: 30s
+    cool_action:
+      - switch.turn_on: fan_power
+    heat_action: 
+      - switch.turn_on: heater_power
+    idle_action:
+      - switch.turn_off: fan_power
+      - switch.turn_off: heater_power 
+
+
+display:
+  - platform: lcd_pcf8574
+    dimensions: 16x2
+    address: 0x27
+    lambda: |-
+      it.print(0,0,"BT Fermenter");
+      it.printf(0,1,"Temp:%.1fF/%.1fF", (id(fermenter_temp).state) * 9 / 5 + 32, (id(fermenter_thermostat).target_temperature) * 9 / 5 + 32);

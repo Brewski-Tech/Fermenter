@@ -1,6 +1,7 @@
 esphome:
   name: "fermenter1"
-  platform: ESP8266
+
+esp8266:
   board: nodemcuv2
 
 # Enable logging

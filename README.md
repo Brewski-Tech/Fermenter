@@ -10,7 +10,7 @@ See the full project documentation at [https://makerhub.site/docs/brewskitech/fe
 
 fermenter.yaml - HomeAssistant ESPHome configuration file
 
-fermenter-with-heat - HomeAssistant ESPHome Configuration file including changes for heater circuit
+fermenter-with-heat.yaml - HomeAssistant ESPHome Configuration file including changes for heater circuit
 
 FermenterController.fzz - fritzing file for electronics
 

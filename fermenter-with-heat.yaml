@@ -86,8 +86,10 @@ climate:
     min_idle_time: 30s
     cool_action:
       - switch.turn_on: fan_power
+      - switch.turn_off: heater_power
     heat_action: 
       - switch.turn_on: heater_power
+      - switch.turn_off: fan_power
     idle_action:
       - switch.turn_off: fan_power
       - switch.turn_off: heater_power 
